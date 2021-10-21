@@ -1,0 +1,41 @@
+name: build for staging
+
+on:
+  push:
+    branches:
+      - 'staging'
+
+jobs:
+  build-mod:
+    runs-on: ubuntu-latest
+    env:
+      MODKIT_VERSION: 0.9.4.3-beta
+      ECO_BRANCH: release
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core 5.0
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.x'
+    - name: Fetch dependencies
+      run: dotnet restore ./EcoLawExtensionsMod/EcoLawExtensionsMod.csproj
+      env:
+        DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
+    - name: Cache Eco dlls
+      id: cache-eco-dlls
+      uses: actions/cache@v2
+      with:
+        path: ./eco-dlls
+        key: ${{ env.MODKIT_VERSION }}-ref-dlls
+    - name: Download Eco dlls
+      if: steps.cache-eco-dlls.outputs.cache-hit != 'true'
+      run: sh fetch-eco-reference-assemblies.sh
+    - name: Build
+      run: dotnet build ./EcoLawExtensionsMod/EcoLawExtensionsMod.csproj --configuration Release --no-restore
+      env:
+        DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: mod-binaries-staging
+        path: EcoLawExtensionsMod/bin/Release/net5.0/EcoLawExtensionsMod.*
