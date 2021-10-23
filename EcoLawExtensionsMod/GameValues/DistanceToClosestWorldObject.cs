@@ -18,7 +18,7 @@ namespace Eco.Mods.LawExtensions
     using Gameplay.Players;
     using Gameplay.Objects;
 
-    [Eco, LocCategory("Misc"), LocDescription("How close the nearest world object of a particular type is.")]
+    [Eco, LocCategory("World"), LocDescription("How close the nearest world object of a particular type is.")]
     public class DistanceToClosestWorldObject : GameValue<float>
     {
         [Eco, Advanced, LocDescription("The position to test.")] public GameValue<Vector3i> Location { get; set; }
@@ -37,7 +37,7 @@ namespace Eco.Mods.LawExtensions
                 .Where(x => ObjectType.ContainsType(x.GetType()));
             if (!allRelevantObjects.Any())
             {
-                return Eval.Make($"{Text.Style(Text.Styles.Currency, "∞")} (distance to nearest {ObjectType.DescribeEntries(Localizer.DoStr(","))})", float.MaxValue);
+                return Eval.Make($"{Text.Style(Text.Styles.Currency, "infinite")} (distance to nearest {ObjectType.DescribeEntries(Localizer.DoStr(","))})", float.MaxValue);
             }
 
             var nearest = allRelevantObjects
