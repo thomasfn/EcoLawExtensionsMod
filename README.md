@@ -36,7 +36,7 @@ Gets the current XP multiplier of a citizen, with options to enable or disable c
 | ConsiderFood | Yes/No | Whether to consider their food bonus. |
 | ConsiderHousing | Yes/No | Whether to consider their housing bonus. |
 
-### Misc
+### World
 
 #### Distance to Closest World Object
 
@@ -46,6 +46,15 @@ Finds the closest world object matching a filter to a location and gets the dist
 | - | - | - |
 | Location | Vector3 | The location to test. Usually this is passed in context from the law trigger. |
 | ObjectType | Object Picker | A filter for objects to search for. |
+
+#### Distance to Closest Plant
+
+Finds the closest plant matching a filter to a location and gets the distance to it. If no plants exist that match the filter, a very large number is returned (basically infinite).
+
+| Property Name | Type | Description |
+| - | - | - |
+| Location | Vector3 | The location to test. Usually this is passed in context from the law trigger. |
+| PlantType | Plant Species Picker | A filter for plants to search for. |
 
 ### Government
 
