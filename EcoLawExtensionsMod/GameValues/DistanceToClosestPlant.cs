@@ -16,14 +16,17 @@ namespace Eco.Mods.LawExtensions
     using Gameplay.Civics.GameValues;
     using Gameplay.Systems.TextLinks;
     using Gameplay.Players;
-    using Gameplay.Objects;
+    using Gameplay.Plants;
 
-    [Eco, LocCategory("World"), LocDescription("How close the nearest world object of a particular type is.")]
-    public class DistanceToClosestWorldObject : GameValue<float>
+    using Simulation.Types;
+    using Eco.Simulation;
+
+    [Eco, LocCategory("World"), LocDescription("How close the nearest plant of a particular type is.")]
+    public class DistanceToClosestPlant : GameValue<float>
     {
         [Eco, Advanced, LocDescription("The position to test.")] public GameValue<Vector3i> Location { get; set; }
 
-        [Eco, Advanced, LocDescription("The object to search for.")] public GamePickerList ObjectType { get; set; } = new GamePickerList(typeof(WorldObject));
+        [Eco, Advanced, LocDescription("The plant to search for.")] public GamePickerList PlantType { get; set; } = new GamePickerList(typeof(PlantSpecies));
 
         private Eval<float> FailNullSafeFloat<T>(Eval<T> eval, string paramName) =>
             eval != null ? Eval.Make($"Invalid {Localizer.DoStr(paramName)} specified on {GetType().GetLocDisplayName()}: {eval.Message}", float.MinValue)
@@ -33,20 +36,20 @@ namespace Eco.Mods.LawExtensions
         {
             var location = this.Location?.Value(action); if (location?.Val == null) return this.FailNullSafeFloat(location, nameof(this.Location));
 
-            var allRelevantObjects = ServiceHolder<IWorldObjectManager>.Obj.All
-                .Where(x => ObjectType.ContainsType(x.GetType()));
-            if (!allRelevantObjects.Any())
+            var allRelevantPlants = EcoSim.PlantSim.All
+                .Where(x => PlantType.ContainsType(x.Species.GetType()));
+            if (!allRelevantPlants.Any())
             {
-                return Eval.Make($"{Text.Style(Text.Styles.Currency, "infinite")} (distance to nearest {ObjectType.DescribeEntries(Localizer.DoStr(","))})", float.MaxValue);
+                return Eval.Make($"{Text.Style(Text.Styles.Currency, "infinite")} (distance to nearest {PlantType.DescribeEntries(Localizer.DoStr(","))})", float.MaxValue);
             }
 
-            var nearest = allRelevantObjects
-                .Select(x => (x, x.Position3i.WrappedDistance(location.Val)))
+            var nearest = allRelevantPlants
+                .Select(x => (x, x.Position.WrappedDistance(location.Val)))
                 .OrderBy(x => x.Item2)
                 .FirstOrDefault();
 
-            return Eval.Make($"{Text.StyledNum(nearest.Item2)} (distance to {nearest.x.UILink()})", float.MaxValue);
+            return Eval.Make($"{Text.StyledNum(nearest.Item2)} (distance to {nearest.x.Species.DisplayName})", float.MaxValue);
         }
-        public override LocString Description() => Localizer.Do($"distance to nearest {ObjectType.DescribeEntries(Localizer.DoStr(","))}");
+        public override LocString Description() => Localizer.Do($"distance to nearest {PlantType.DescribeEntries(Localizer.DoStr(","))}");
     }
 }

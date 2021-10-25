@@ -1,10 +1,11 @@
 # Eco Law Extensions Mod
-A server mod for Eco 9.4 that extends the law system with a number of helpful utility game values and legal actions.
-TODO: list the new game values and legal actions with a brief overview of what they do here
- - Wealth of government account
- - Population of demographic / title
- - Nearest distance to world object
- - Current skill rate of citizen
+A server mod for Eco 9.4 that extends the law system with a number of helpful utility game values.
+
+Added game values:
+ - Citizen Population - the current citizen count of a title or demographic
+ - Distance to Closest World Object - the closest distance to the nearest world object of a specific type
+ - Government Account Holding - the current amount of a particular currency held in a government account
+ - Skill Rate - the current xp multiplier of a citizen from either food, housing or total
 
 ## Installation
 1. Download `EcoLawExtensionsMod.dll` from the [latest release](https://github.com/thomasfn/EcoLawExtensionsMod/releases).
@@ -13,7 +14,59 @@ TODO: list the new game values and legal actions with a brief overview of what t
 
 ## Usage
 
-TODO: Document the new game values and legal actions in more detail
+The added game values will show up under the existing headings in the law editor. Do not remove the mod if any features of the mod have been used in a law, even a law that has been removed, as this may corrupt the world save.
+
+### Citizens
+
+#### Citizen Population
+
+Counts the number of citizens that hold a title or are a member of a demographic.
+
+| Property Name | Type | Description |
+| - | - | - |
+| Target | Alias | The title or demographic to count. If a user is passed in here, this will always return 1. |
+
+#### Skill Rate
+
+Gets the current XP multiplier of a citizen, with options to enable or disable consideration of food or housing bonuses. Will return 0 if "No" is passed to both.
+
+| Property Name | Type | Description |
+| - | - | - |
+| Citizen | Citizen | The user to evaluate skill rate of. |
+| ConsiderFood | Yes/No | Whether to consider their food bonus. |
+| ConsiderHousing | Yes/No | Whether to consider their housing bonus. |
+
+### World
+
+#### Distance to Closest World Object
+
+Finds the closest world object matching a filter to a location and gets the distance to it. If no world objects exist that match the filter, a very large number is returned (basically infinite).
+
+| Property Name | Type | Description |
+| - | - | - |
+| Location | Vector3 | The location to test. Usually this is passed in context from the law trigger. |
+| ObjectType | Object Picker | A filter for objects to search for. |
+
+#### Distance to Closest Plant
+
+Finds the closest plant matching a filter to a location and gets the distance to it. If no plants exist that match the filter, a very large number is returned (basically infinite).
+
+| Property Name | Type | Description |
+| - | - | - |
+| Location | Vector3 | The location to test. Usually this is passed in context from the law trigger. |
+| PlantType | Plant Species Picker | A filter for plants to search for. |
+
+### Government
+
+#### Government Account Holding
+
+Gets the amount of a currency held in a government bank account.
+
+| Property Name | Type | Description |
+| - | - | - |
+| Currency | Currency | The currency to retrieve the holding for. |
+| Account | Government Bank Account | The account to retrieve the holding from. |
+
 ## Building Mod from Source
 
 ### Windows

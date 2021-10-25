@@ -36,8 +36,42 @@ namespace Eco.Mods.LawExtensions
             float skillRate = 0.0f;
             if (considerFood.Val) { skillRate += user.Val?.Stomach.NutrientSkillRate() ?? 0.0f; }
             if (considerHousing.Val) { skillRate += user.Val?.HomePropertyValue?.TotalSkillPoints ?? 0.0f; }
-            return Eval.Make($"{Text.StyledNum(skillRate)} ({user?.Val.UILink()}'s current skill rate{(considerFood.Val && !considerHousing.Val ? " from food only" : !considerFood.Val && considerHousing.Val ? " from housing only" : "")})", skillRate);
+            return Eval.Make($"{Text.StyledNum(skillRate)} ({user?.Val.UILink()}'s current skill rate {DescribeConsiderFoodHousing(considerFood.Val, considerHousing.Val)})", skillRate);
         }
-        public override LocString Description() => Localizer.Do($"current skill rate of {this.Citizen.DescribeNullSafe()}");
+
+        public override LocString Description()
+            => Localizer.Do($"current skill rate of {this.Citizen.DescribeNullSafe()} {DescribeConsiderFoodHousing()}");
+
+        private LocString DescribeConsiderFoodHousing()
+        {
+            if ((ConsiderFood is Yes || ConsiderFood is No) && (ConsiderHousing is Yes || ConsiderHousing is No))
+            {
+                return DescribeConsiderFoodHousing(ConsiderFood is Yes, ConsiderHousing is Yes);
+            }
+            else
+            {
+                return Localizer.Do($"from food when {ConsiderFood.DescribeNullSafe()} and housing when {ConsiderHousing.DescribeNullSafe()}");
+            }
+        }
+
+        private static LocString DescribeConsiderFoodHousing(bool considerFood, bool considerHousing)
+        {
+            if (considerFood && !considerHousing)
+            {
+                return Localizer.DoStr("from food only");
+            }
+            else if (!considerFood && considerHousing)
+            {
+                return Localizer.DoStr("from housing only");
+            }
+            else if (considerFood && considerHousing)
+            {
+                return Localizer.DoStr("from food and housing");
+            }
+            else
+            {
+                return Localizer.DoStr("from nothing");
+            }
+        }
     }
 }
