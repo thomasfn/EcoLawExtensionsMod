@@ -9,17 +9,17 @@ namespace Eco.Mods.LawExtensions
     {
         public static void Debug(string message)
         {
-            Log.Write(new LocString("[CivicsImpExpPlugin] DEBUG: " + message + "\n"));
+            Log.Write(Localizer.Do($"[LawExtensions] DEBUG: {message}\n"));
         }
 
         public static void Info(string message)
         {
-            Log.Write(new LocString("[CivicsImpExpPlugin] " + message + "\n"));
+            Log.Write(Localizer.Do($"[LawExtensions] {message}\n"));
         }
 
         public static void Error(string message)
         {
-            Log.Write(new LocString("[CivicsImpExpPlugin] ERROR: " + message + "\n"));
+            Log.Write(Localizer.Do($"[LawExtensions] ERROR: {message}\n"));
         }
     }
 }
