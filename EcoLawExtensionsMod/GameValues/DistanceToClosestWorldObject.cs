@@ -45,7 +45,7 @@ namespace Eco.Mods.LawExtensions
                 .OrderBy(x => x.Item2)
                 .FirstOrDefault();
 
-            return Eval.Make($"{Text.StyledNum(nearest.Item2)} (distance to {nearest.x.UILink()})", float.MaxValue);
+            return Eval.Make($"{Text.StyledNum(nearest.Item2)} (distance to {nearest.x.UILink()})", nearest.Item2);
         }
         public override LocString Description() => Localizer.Do($"distance to nearest {ObjectType.DescribeEntries(Localizer.DoStr(","))}");
     }
