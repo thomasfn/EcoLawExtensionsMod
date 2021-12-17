@@ -47,6 +47,18 @@ Gets the current XP multiplier of a citizen, with options to enable or disable c
 | ConsiderFood | Yes/No | Whether to consider their food bonus. |
 | ConsiderHousing | Yes/No | Whether to consider their housing bonus. |
 
+#### Nutrition
+
+Gets the current nutrition value of a citizen, e.g. excluding any multipliers from balanced diet, tastiness, cravings etc, with options to enable or disable consideration of each macro nutrient. Will return 0 if "No" is passed to all.
+
+| Property Name | Type | Description |
+| - | - | - |
+| Citizen | User | The user to evaluate skill rate of. |
+| ConsiderCarbs | Yes/No | Whether to consider their carbohydrates. |
+| ConsiderVits | Yes/No | Whether to consider their vitamins. |
+| ConsiderProtein | Yes/No | Whether to consider their protein. |
+| ConsiderFat | Yes/No | Whether to consider their fat. |
+
 ### World
 
 #### Distance to Closest World Object
