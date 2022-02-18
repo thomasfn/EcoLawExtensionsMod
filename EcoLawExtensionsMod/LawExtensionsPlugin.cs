@@ -18,6 +18,7 @@ namespace Eco.Mods.LawExtensions
     using Gameplay.Players;
     using Gameplay.Systems.Chat;
     using Gameplay.Economy;
+    using Gameplay.Systems.Messaging.Chat.Commands;
 
     using Simulation.Time;
 
