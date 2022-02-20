@@ -23,7 +23,7 @@ namespace Eco.Mods.LawExtensions
     {
         [Eco, Advanced, LocDescription("The position to test.")] public GameValue<Vector3i> Location { get; set; }
 
-        [Eco, Advanced, LocDescription("The object to search for.")] public GamePickerList ObjectType { get; set; } = new GamePickerList(typeof(WorldObject));
+        [Eco, AllowNullInView, AllowEmpty, LocDescription("The object to search for.")] public GamePickerList<WorldObject> ObjectType { get; set; } = new ();
 
         private Eval<float> FailNullSafeFloat<T>(Eval<T> eval, string paramName) =>
             eval != null ? Eval.Make($"Invalid {Localizer.DoStr(paramName)} specified on {GetType().GetLocDisplayName()}: {eval.Message}", float.MinValue)

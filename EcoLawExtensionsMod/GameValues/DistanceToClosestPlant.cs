@@ -11,12 +11,8 @@ namespace Eco.Mods.LawExtensions
     using Shared.Networking;
     using Shared.Utils;
     using Shared.Math;
-    using Shared.IoC;
 
     using Gameplay.Civics.GameValues;
-    using Gameplay.Systems.TextLinks;
-    using Gameplay.Players;
-    using Gameplay.Plants;
 
     using Simulation.Types;
     using Eco.Simulation;
@@ -26,7 +22,7 @@ namespace Eco.Mods.LawExtensions
     {
         [Eco, Advanced, LocDescription("The position to test.")] public GameValue<Vector3i> Location { get; set; }
 
-        [Eco, Advanced, LocDescription("The plant to search for.")] public GamePickerList PlantType { get; set; } = new GamePickerList(typeof(PlantSpecies));
+        [Eco, AllowNullInView, AllowEmpty, LocDescription("The plant to search for.")] public GamePickerList<PlantSpecies> PlantType { get; set; } = new ();
 
         private Eval<float> FailNullSafeFloat<T>(Eval<T> eval, string paramName) =>
             eval != null ? Eval.Make($"Invalid {Localizer.DoStr(paramName)} specified on {GetType().GetLocDisplayName()}: {eval.Message}", float.MinValue)
