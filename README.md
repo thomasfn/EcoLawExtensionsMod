@@ -1,5 +1,5 @@
 # Eco Law Extensions Mod
-A server mod for Eco 9.5 that extends the law system with a number of helpful utility game values.
+A server mod for Eco 9.5 that extends the law system with a number of helpful utility game values and legal actions.
 
 Added game values:
  - Citizen Population - the current citizen count of a title or demographic
@@ -7,7 +7,11 @@ Added game values:
  - Distance to Closest Plant - the closest distance to the nearest plant of a specific type
  - Government Account Holding - the current amount of a particular currency held in a government account
  - Skill Rate - the current xp multiplier of a citizen from either food, housing or total
+ - Nutrition - the current base nutrition of a citizen, e.g. before bonus multipliers (like balanced diet) are applied
  - Citizen Skill Count - the current number of skills learnt/specialised by a citizen
+
+Added legal actions:
+- Turn On Machines - turn on machines belonging to a citizen or group that were turned off either manually, legally or both
 
 ## Installation
 1. Download `EcoLawExtensionsMod.dll` from the [latest release](https://github.com/thomasfn/EcoLawExtensionsMod/releases).
@@ -78,6 +82,16 @@ Finds the closest plant matching a filter to a location and gets the distance to
 | - | - | - |
 | Location | Vector3 | The location to test. Usually this is passed in context from the law trigger. |
 | PlantType | Plant Species Picker | A filter for plants to search for. |
+
+#### Turn On Machines
+
+Tries to turn on machines belonging to a citizen or group that are currently turned off. The filter can specify how the machines were turned off - for example, only try to turn on machines that were turned off legally (e.g. via prevent on Pollute Air).
+
+| Property Name | Type | Description |
+| - | - | - |
+| Target | Alias | The title, demographic or citizen whoes machines should be considered. This could be set to Everyone to consider all machines in the world. |
+| ByPlayer | Yes/No | Include machines turned off by a player or by other invalid status. |
+| ByLaw | Yes/No | Include machines turned off by a law (e.g. prevent on Pollute Air trigger). |
 
 ### Government
 
