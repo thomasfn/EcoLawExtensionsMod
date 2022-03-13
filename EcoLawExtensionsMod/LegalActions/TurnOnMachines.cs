@@ -53,30 +53,33 @@ namespace Eco.Mods.LawExtensions
 
         private PostResult Do(LocString description, IContextObject context, Law law)
         {
-            var alias = this.Target?.Value(context).Val;
+            var targetAlias = this.Target?.Value(context).Val;
             var byPlayer = this.ByPlayer?.Value(context).Val ?? false;
             var byLaw = this.ByLaw?.Value(context).Val ?? false;
 
-            var users = alias?.UserSet.ToArray();
+            var users = targetAlias?.UserSet.ToArray();
             if (users == null || users.Length == 0) { return new PostResult($"Reactivate dormant machines without target citizen(s) skipped.", true); }
 
             return new PostResult(() =>
             {
                 int cnt = 0;
                 var allRelevantObjects = WorldObjectUtil.AllObjsWithComponent<OnOffComponent>()
-                    .Where(x => !x.On);
+                    .Where(x => x != null && !x.On);
                 foreach (var onOffComponent in allRelevantObjects)
                 {
-                    if (!onOffComponent.Parent.Owners.UserSet.Any(x => alias.ContainsUser(x))) { continue; }
-                    var statusComponent = onOffComponent.Parent.GetComponent<StatusComponent>();
-                    var wasTurnedOffByLaw = statusComponent.Statuses.Any(x => DoesStatusSayIllegal(x.Message).GetValueOrDefault());
+                    var worldObject = onOffComponent.Parent;
+                    if (worldObject == null || worldObject.Owners == null) { continue; }
+                    if (targetAlias != null && !worldObject.Owners.UserSet.Any(x => x != null && targetAlias.ContainsUser(x))) { continue; }
+                    var statusComponent = worldObject.GetComponent<StatusComponent>();
+                    if (statusComponent == null) { continue; }
+                    var wasTurnedOffByLaw = statusComponent.Statuses.Any(x => x != null && DoesStatusSayIllegal(x.Message).GetValueOrDefault());
                     if ((wasTurnedOffByLaw && byLaw) || (!wasTurnedOffByLaw && byPlayer))
                     {
                         onOffComponent.SetOnOff(null, true);
                         ++cnt;
                     }
                 }
-                return Localizer.Do($"Turning on {cnt} machines belonging to {alias.UILinkGeneric()}");
+                return Localizer.Do($"Turning on {cnt} machines belonging to {targetAlias.UILinkGeneric()}");
             });
         }
 
