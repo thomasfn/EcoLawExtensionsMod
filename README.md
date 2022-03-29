@@ -83,6 +83,23 @@ Finds the closest plant matching a filter to a location and gets the distance to
 | Location | Vector3 | The location to test. Usually this is passed in context from the law trigger. |
 | PlantType | Plant Species Picker | A filter for plants to search for. |
 
+#### Layer Value At
+
+Reads the value of a world layer at a location. World layers include biomes, animal populations, pollution levels and other misc things like oilfield density. There is not (yet) a documented list of valid world layer names but generally you can guess them based on the layer toggles on the world map - for example, the ocean biome layer is "OceanBiome", oilfield is "Oilfield" etc. Note that world layers are usually at a different resolution to block coords - e.g. while the transition between biomes may appear smooth on the map, the actual layer readings from this game value may not be interpolated in the same way. The returned value is a decimal between 0 and 1, corresponding to the percentage shown on the world map.
+
+| Property Name | Type | Description |
+| - | - | - |
+| Location | Vector3 | The location to test. Usually this is passed in context from the law trigger. |
+| WorldLayer | String | The world layer name, for example "OceanBiome" or "Oilfield". |
+
+#### Height At
+
+Extracts the Y coordinate from a location. This will be an integer in whole blocks above bedrock.
+
+| Property Name | Type | Description |
+| - | - | - |
+| Location | Vector3 | The location to get the height of. Usually this is passed in context from the law trigger. |
+
 #### Turn On Machines
 
 Tries to turn on machines belonging to a citizen or group that are currently turned off. The filter can specify how the machines were turned off - for example, only try to turn on machines that were turned off legally (e.g. via prevent on Pollute Air).
