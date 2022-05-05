@@ -1,5 +1,5 @@
 # Eco Law Extensions Mod
-A server mod for Eco 9.4 that extends the law system with a number of helpful utility game values.
+A server mod for Eco 9.5 that extends the law system with a number of helpful utility game values and legal actions.
 
 Added game values:
  - Citizen Population - the current citizen count of a title or demographic
@@ -7,7 +7,11 @@ Added game values:
  - Distance to Closest Plant - the closest distance to the nearest plant of a specific type
  - Government Account Holding - the current amount of a particular currency held in a government account
  - Skill Rate - the current xp multiplier of a citizen from either food, housing or total
+ - Nutrition - the current base nutrition of a citizen, e.g. before bonus multipliers (like balanced diet) are applied
  - Citizen Skill Count - the current number of skills learnt/specialised by a citizen
+
+Added legal actions:
+- Turn On Machines - turn on machines belonging to a citizen or group that were turned off either manually, legally or both
 
 ## Installation
 1. Download `EcoLawExtensionsMod.dll` from the [latest release](https://github.com/thomasfn/EcoLawExtensionsMod/releases).
@@ -79,6 +83,33 @@ Finds the closest plant matching a filter to a location and gets the distance to
 | Location | Vector3 | The location to test. Usually this is passed in context from the law trigger. |
 | PlantType | Plant Species Picker | A filter for plants to search for. |
 
+#### Layer Value At
+
+Reads the value of a world layer at a location. World layers include biomes, animal populations, pollution levels and other misc things like oilfield density. There is not (yet) a documented list of valid world layer names but generally you can guess them based on the layer toggles on the world map - for example, the ocean biome layer is "OceanBiome", oilfield is "Oilfield" etc. Note that world layers are usually at a different resolution to block coords - e.g. while the transition between biomes may appear smooth on the map, the actual layer readings from this game value may not be interpolated in the same way. The returned value is a decimal between 0 and 1, corresponding to the percentage shown on the world map.
+
+| Property Name | Type | Description |
+| - | - | - |
+| Location | Vector3 | The location to test. Usually this is passed in context from the law trigger. |
+| WorldLayer | String | The world layer name, for example "OceanBiome" or "Oilfield". |
+
+#### Height At
+
+Extracts the Y coordinate from a location. This will be an integer in whole blocks above bedrock.
+
+| Property Name | Type | Description |
+| - | - | - |
+| Location | Vector3 | The location to get the height of. Usually this is passed in context from the law trigger. |
+
+#### Turn On Machines
+
+Tries to turn on machines belonging to a citizen or group that are currently turned off. The filter can specify how the machines were turned off - for example, only try to turn on machines that were turned off legally (e.g. via prevent on Pollute Air).
+
+| Property Name | Type | Description |
+| - | - | - |
+| Target | Alias | The title, demographic or citizen whoes machines should be considered. This could be set to Everyone to consider all machines in the world. |
+| ByPlayer | Yes/No | Include machines turned off by a player or by other invalid status. |
+| ByLaw | Yes/No | Include machines turned off by a law (e.g. prevent on Pollute Air trigger). |
+
 ### Government
 
 #### Government Account Holding
@@ -102,7 +133,7 @@ Gets the amount of a currency held in a government bank account.
 
 ### Linux
 
-1. Run `ECO_BRANCH="release" MODKIT_VERSION="0.9.4.3-beta" fetch-eco-reference-assemblies.sh` (change the modkit branch and version as needed)
+1. Run `ECO_BRANCH="release" MODKIT_VERSION="0.9.5.0-beta" fetch-eco-reference-assemblies.sh` (change the modkit branch and version as needed)
 2. Enter the `EcoLawExtensionsMod` directory and run:
 `dotnet restore`
 `dotnet build`
