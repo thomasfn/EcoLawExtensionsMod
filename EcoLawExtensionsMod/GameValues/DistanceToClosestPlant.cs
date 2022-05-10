@@ -11,11 +11,12 @@ namespace Eco.Mods.LawExtensions
     using Shared.Networking;
     using Shared.Utils;
     using Shared.Math;
+    using Shared.Voxel;
 
     using Gameplay.Civics.GameValues;
 
+    using Simulation;
     using Simulation.Types;
-    using Eco.Simulation;
 
     [Eco, LocCategory("World"), LocDescription("How close the nearest plant of a particular type is.")]
     public class DistanceToClosestPlant : GameValue<float>
@@ -40,7 +41,7 @@ namespace Eco.Mods.LawExtensions
             }
 
             var nearest = allRelevantPlants
-                .Select(x => (x, x.Position.WrappedDistance(location.Val)))
+                .Select(x => (x, World.WrappedDistance(x.Position, location.Val)))
                 .OrderBy(x => x.Item2)
                 .FirstOrDefault();
 
