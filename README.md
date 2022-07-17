@@ -129,15 +129,15 @@ Gets the amount of a currency held in a government bank account.
 2. Extract the modkit and copy the dlls from `ReferenceAssemblies` to `eco-dlls` in the root directory (create the folder if it doesn't exist)
 3. Open `EcoLawExtensionsMod.sln` in Visual Studio 2019
 4. Build the `EcoLawExtensionsMod` project in Visual Studio
-5. Find the artifact in `EcoLawExtensionsMod\bin\{Debug|Release}\net5.0`
+5. Find the artifact in `EcoLawExtensionsMod\bin\{Debug|Release}\net6.0`
 
 ### Linux
 
-1. Run `ECO_BRANCH="release" MODKIT_VERSION="0.9.5.0-beta" fetch-eco-reference-assemblies.sh` (change the modkit branch and version as needed)
+1. Run `ECO_BRANCH="staging" MODKIT_VERSION="0.9.6.0-beta-2356" fetch-eco-reference-assemblies.sh` (change the modkit branch and version as needed)
 2. Enter the `EcoLawExtensionsMod` directory and run:
 `dotnet restore`
 `dotnet build`
-3. Find the artifact in `EcoLawExtensionsMod/bin/{Debug|Release}/net5.0`
+3. Find the artifact in `EcoLawExtensionsMod/bin/{Debug|Release}/net6.0`
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
