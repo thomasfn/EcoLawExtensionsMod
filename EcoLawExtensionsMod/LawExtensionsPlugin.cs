@@ -37,7 +37,7 @@ namespace Eco.Mods.LawExtensions
     }
 
     [Localized, LocDisplayName(nameof(LawExtensionsPlugin)), Priority(PriorityAttribute.High)]
-    public class LawExtensionsPlugin : Singleton<LawExtensionsPlugin>, IModKitPlugin, IInitializablePlugin, IChatCommandHandler, ISaveablePlugin, IContainsRegistrars, IConfigurablePlugin
+    public class LawExtensionsPlugin : Singleton<LawExtensionsPlugin>, IModKitPlugin, IInitializablePlugin, ISaveablePlugin, IContainsRegistrars, IConfigurablePlugin
     {
         [NotNull] private readonly LawExtensionsData data;
 
@@ -56,6 +56,7 @@ namespace Eco.Mods.LawExtensions
         public void InitializeRegistrars(TimedTask timer) => data.InitializeRegistrars();
         public string GetDisplayText() => string.Empty;
         public string GetStatus() => string.Empty;
+        public string GetCategory() => Localizer.DoStr("Civics");
         public override string ToString() => Localizer.DoStr("LawExtensions");
         public void SaveAll() => StorageManager.Obj.MarkDirty(data);
 
@@ -66,9 +67,5 @@ namespace Eco.Mods.LawExtensions
         {
             this.SaveConfig();
         }
-
-        #region Chat Commands
-
-        #endregion
     }
 }
