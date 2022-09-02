@@ -1,5 +1,5 @@
 # Eco Law Extensions Mod
-A server mod for Eco 9.5 that extends the law system with a number of helpful utility game values and legal actions.
+A server mod for Eco 9.6 that extends the law system with a number of helpful utility game values and legal actions.
 
 Added game values:
  - Citizen Population - the current citizen count of a title or demographic
@@ -133,7 +133,7 @@ Gets the amount of a currency held in a government bank account.
 
 ### Linux
 
-1. Run `ECO_BRANCH="staging" MODKIT_VERSION="0.9.6.0-beta-2356" fetch-eco-reference-assemblies.sh` (change the modkit branch and version as needed)
+1. Run `ECO_BRANCH="release" MODKIT_VERSION="0.9.6.1-beta" fetch-eco-reference-assemblies.sh` (change the modkit branch and version as needed)
 2. Enter the `EcoLawExtensionsMod` directory and run:
 `dotnet restore`
 `dotnet build`
