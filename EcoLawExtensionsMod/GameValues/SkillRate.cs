@@ -35,7 +35,7 @@ namespace Eco.Mods.LawExtensions
 
             float skillRate = 0.0f;
             if (considerFood.Val) { skillRate += user.Val?.Stomach.NutrientSkillRate() ?? 0.0f; }
-            if (considerHousing.Val) { skillRate += user.Val?.HomesteadDeed?.PropertyValue?.Value ?? 0.0f; }
+            if (considerHousing.Val) { skillRate += user.Val?.ResidencyPropertyValue?.Value ?? 0.0f; }
             return Eval.Make($"{Text.StyledNum(skillRate)} ({user?.Val.UILink()}'s current skill rate {DescribeConsiderFoodHousing(considerFood.Val, considerHousing.Val)})", skillRate);
         }
 
