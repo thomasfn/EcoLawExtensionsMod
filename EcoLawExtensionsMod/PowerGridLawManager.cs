@@ -155,7 +155,7 @@ namespace Eco.Mods.LawExtensions
                 {
                     pair.Value.TriggerAction(gameActionPack, deltaTime);
                 }
-                var result = gameActionPack.TryPerform();
+                var result = gameActionPack.TryPerform(null);
                 //Logger.Debug($"Result = {result}");
             }
         }
