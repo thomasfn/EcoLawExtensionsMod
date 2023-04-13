@@ -20,7 +20,7 @@ namespace Eco.Mods.LawExtensions
     using Gameplay.Objects;
     using Gameplay.Components;
 
-    [Eco, LocCategory("Misc"), CreateComponentTab("Eco Law Extensions", IconName = "Law"), LocDisplayName("Turn On Machines"), LocDescription("Tries to turn on all inactive machines that match a set of conditions.")]
+    [Eco, LocCategory("Misc"), CreateComponentTabLoc("Eco Law Extensions", IconName = "Law"), LocDisplayName("Turn On Machines"), LocDescription("Tries to turn on all inactive machines that match a set of conditions.")]
     public class TurnOnMachines_LegalAction : LegalAction
     {
         [Eco, Advanced, LocDescription("The player or group to include on machines for.")]

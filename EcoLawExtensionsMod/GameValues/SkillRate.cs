@@ -14,7 +14,7 @@ namespace Eco.Mods.LawExtensions
     using Gameplay.Systems.TextLinks;
     using Gameplay.Players;
 
-    [Eco, LocCategory("Citizens"), LocDescription("The citien's current skill rate from food and/or housing.")]
+    [Eco, LocCategory("Citizens"), LocDescription("The citizen's current skill rate from food and/or housing.")]
     public class SkillRate : GameValue<float>
     {
         [Eco, Advanced, LocDescription("The citizen whose skill rate is being calculated.")] public GameValue<User> Citizen { get; set; }
