@@ -8,6 +8,7 @@ namespace Eco.Mods.LawExtensions
 
     using Gameplay.Civics.GameValues;
     using Gameplay.Economy;
+    using Gameplay.Economy.Transfer;
     using Gameplay.Systems.TextLinks;
 
     using Shared.Localization;
