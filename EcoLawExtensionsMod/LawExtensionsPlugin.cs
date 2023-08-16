@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Threading.Tasks;
+using System.Linq;
+using System.Collections.Generic;
 
 using HarmonyLib;
 
@@ -17,12 +20,11 @@ namespace Eco.Mods.LawExtensions
     using Shared.Serialization;
 
     using Simulation.Time;
-    using Eco.Gameplay.Items;
-    using Eco.Gameplay.Components;
-    using System.Threading.Tasks;
-    using System.Linq;
-    using Eco.Gameplay.Objects;
-    using System.Collections.Generic;
+
+    using Gameplay.Items;
+    using Gameplay.Components;
+    using Gameplay.Objects;
+    
 
     [Serialized]
     public class LawExtensionsData : Singleton<LawExtensionsData>, IStorage
