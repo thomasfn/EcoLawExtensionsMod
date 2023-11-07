@@ -19,7 +19,8 @@ namespace Eco.Mods.LawExtensions
     using Gameplay.Systems.TextLinks;
     using Gameplay.Objects;
     using Gameplay.Components;
-    using Eco.Gameplay.Settlements;
+    using Gameplay.Settlements;
+    using Gameplay.Economy.Transfer;
 
     [Eco, LocCategory("Misc"), CreateComponentTabLoc("Eco Law Extensions", IconName = "Law"), LocDisplayName("Turn On Machines"), LocDescription("Tries to turn on all inactive machines that match a set of conditions.")]
     public class TurnOnMachines_LegalAction : LegalAction
@@ -49,7 +50,7 @@ namespace Eco.Mods.LawExtensions
             return Localizer.Do($"machines turned off by the player when {ByPlayer.DescribeNullSafe()} and machines turned off legally when {ByPlayer.DescribeNullSafe()}");
         }
 
-        protected override PostResult Perform(Law law, GameAction action) => this.Do(law.UILinkNullSafe(), action, law?.Settlement);
+        protected override PostResult Perform(Law law, GameAction action, AccountChangeSet acc) => this.Do(law.UILinkNullSafe(), action, law?.Settlement);
         //PostResult IExecutiveAction.PerformExecutiveAction(User user, IContextObject context) => this.Do(Localizer.Do($"Executive Action by {(user is null ? Localizer.DoStr("the Executive Office") : user.UILink())}"), context, null);
 
         private PostResult Do(LocString description, IContextObject context, Settlement jurisdictionSettlement)
