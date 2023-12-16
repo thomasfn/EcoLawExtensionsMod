@@ -19,8 +19,10 @@ namespace Eco.Mods.LawExtensions
     using Gameplay.Systems.TextLinks;
     using Gameplay.Objects;
     using Gameplay.Components;
+    using Gameplay.Settlements;
+    using Gameplay.Economy.Transfer;
 
-    [Eco, LocCategory("Misc"), CreateComponentTab("Eco Law Extensions", IconName = "Law"), LocDisplayName("Turn On Machines"), LocDescription("Tries to turn on all inactive machines that match a set of conditions.")]
+    [Eco, LocCategory("Misc"), CreateComponentTabLoc("Eco Law Extensions", IconName = "Law"), LocDisplayName("Turn On Machines"), LocDescription("Tries to turn on all inactive machines that match a set of conditions.")]
     public class TurnOnMachines_LegalAction : LegalAction
     {
         [Eco, Advanced, LocDescription("The player or group to include on machines for.")]
@@ -48,10 +50,10 @@ namespace Eco.Mods.LawExtensions
             return Localizer.Do($"machines turned off by the player when {ByPlayer.DescribeNullSafe()} and machines turned off legally when {ByPlayer.DescribeNullSafe()}");
         }
 
-        protected override PostResult Perform(Law law, GameAction action) => this.Do(law.UILink(), action, law);
+        protected override PostResult Perform(Law law, GameAction action, AccountChangeSet acc) => this.Do(law.UILinkNullSafe(), action, law?.Settlement);
         //PostResult IExecutiveAction.PerformExecutiveAction(User user, IContextObject context) => this.Do(Localizer.Do($"Executive Action by {(user is null ? Localizer.DoStr("the Executive Office") : user.UILink())}"), context, null);
 
-        private PostResult Do(LocString description, IContextObject context, Law law)
+        private PostResult Do(LocString description, IContextObject context, Settlement jurisdictionSettlement)
         {
             var targetAlias = this.Target?.Value(context).Val;
             var byPlayer = this.ByPlayer?.Value(context).Val ?? false;
@@ -64,7 +66,7 @@ namespace Eco.Mods.LawExtensions
             {
                 int cnt = 0;
                 var allRelevantObjects = WorldObjectUtil.AllObjsWithComponent<OnOffComponent>()
-                    .Where(x => x != null && !x.On);
+                    .Where(x => x != null && !x.On && (jurisdictionSettlement?.Influences(x.Parent.WorldPosXZi()) ?? true));
                 foreach (var onOffComponent in allRelevantObjects)
                 {
                     var worldObject = onOffComponent.Parent;

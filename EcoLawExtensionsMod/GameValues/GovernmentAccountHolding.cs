@@ -8,6 +8,7 @@ namespace Eco.Mods.LawExtensions
 
     using Gameplay.Civics.GameValues;
     using Gameplay.Economy;
+    using Gameplay.Economy.Transfer;
     using Gameplay.Systems.TextLinks;
 
     using Shared.Localization;
@@ -18,7 +19,7 @@ namespace Eco.Mods.LawExtensions
     public class GovernmentAccountHolding : GameValue<float>
     {
         [Eco, Advanced, LocDescription("The currency held by the bank account to count.")] public GameValue<Currency> Currency { get; set; }
-        [Eco, Advanced, LocDescription("The bank account whose amount is being calculated."), TaxDestinationsOnly] public GameValue<BankAccount> Account { get; set; }
+        [Eco, Advanced, LocDescription("The bank account whose amount is being calculated."), GovernmentAccountsOnly] public GameValue<BankAccount> Account { get; set; }
 
         public override Eval<float> Value(IContextObject action)
         {
