@@ -23,7 +23,7 @@ namespace Eco.Mods.LawExtensions.GameActions
 
         [Eco, LocDescription("The location of the object consuming the power.")] public Vector3i ActionLocation { get; set; }
 
-        [Eco, LocDescription("The object consuming the power."), RequiredTag("World Object")] public Item PowerConsumer { get; set; }
+        [Eco, LocDescription("The object consuming the power."), RequiredTag("World Object")] public IPlaceableItem PowerConsumer { get; set; }
 
         [Eco, LocDescription("What interval of time was spent consuming?")] public float TimeConsuming { get; set; }
 
