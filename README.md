@@ -1,5 +1,5 @@
 # Eco Law Extensions Mod
-A server mod for Eco 10.0 that extends the law system with a number of helpful utility game values and legal actions.
+A server mod for Eco 11.0 that extends the law system with a number of helpful utility game values and legal actions.
 
 Added game values:
  - Citizen Population - the current citizen count of a title or demographic
@@ -174,7 +174,7 @@ Note that the `PowerAvailable` and `PowerProduced` values are measured in Joules
 
 ### Linux
 
-1. Run `ECO_BRANCH="release" MODKIT_VERSION="0.10.0.0-beta" fetch-eco-reference-assemblies.sh` (change the modkit branch and version as needed)
+1. Run `ECO_BRANCH="release" MODKIT_VERSION="0.11.0.0-beta" fetch-eco-reference-assemblies.sh` (change the modkit branch and version as needed)
 2. Enter the `EcoLawExtensionsMod` directory and run:
 `dotnet restore`
 `dotnet build`

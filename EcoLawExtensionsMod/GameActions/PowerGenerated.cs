@@ -23,7 +23,7 @@ namespace Eco.Mods.LawExtensions.GameActions
 
         [Eco, LocDescription("The location of the object generating the power.")] public Vector3i ActionLocation { get; set; }
 
-        [Eco, LocDescription("The object generating the power."), RequiredTag("World Object")] public Item PowerGenerator { get; set; }
+        [Eco, LocDescription("The object generating the power."), RequiredTag("World Object")] public IPlaceableItem PowerGenerator { get; set; }
 
         [Eco, LocDescription("What interval of time was spent generating?")] public float TimeGenerating { get; set; }
 
