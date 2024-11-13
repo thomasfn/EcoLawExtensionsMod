@@ -7,12 +7,13 @@ on:
 
 jobs:
   build-mod:
+    name: Build Mod
     runs-on: ubuntu-latest
     env:
-      MODKIT_VERSION: 0.11.0.2-beta-release-707
+      MODKIT_VERSION: 0.11.1.1-beta-release-758
       ECO_BRANCH: staging
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Setup .NET Core 7.0
       uses: actions/setup-dotnet@v1
       with:
@@ -23,7 +24,7 @@ jobs:
         DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
     - name: Cache Eco dlls
       id: cache-eco-dlls
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ./eco-dlls
         key: ${{ env.MODKIT_VERSION }}-ref-dlls
@@ -35,7 +36,7 @@ jobs:
       env:
         DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
     - name: Upload build artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: mod-binaries-staging
         path: EcoLawExtensionsMod/bin/Release/net7.0/EcoLawExtensionsMod.*
