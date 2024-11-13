@@ -106,6 +106,14 @@ Extracts the Y coordinate from a location. This will be an integer in whole bloc
 | - | - | - |
 | Location | Vector3 | The location to get the height of. Usually this is passed in context from the law trigger. |
 
+#### X/Z Coord At
+
+Extracts the X/Z coordinate from a location. This will be an integer in whole blocks.
+
+| Property Name | Type | Description |
+| - | - | - |
+| Location | Vector3 | The location to get the X/Z coord of. Usually this is passed in context from the law trigger. |
+
 #### Turn On Machines
 
 Tries to turn on machines belonging to a citizen or group that are currently turned off. The filter can specify how the machines were turned off - for example, only try to turn on machines that were turned off legally (e.g. via prevent on Pollute Air).
