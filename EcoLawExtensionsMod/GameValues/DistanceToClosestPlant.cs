@@ -25,6 +25,8 @@ namespace Eco.Mods.LawExtensions
 
         [Eco, AllowNullInView, AllowEmpty, LocDescription("The plant to search for.")] public GamePickerList<PlantSpecies> PlantType { get; set; } = new ();
 
+        [Eco, Advanced, LocDescription("Whether to ignore plants at the target location.")] public GameValue<bool> IgnoreAtLocation { get; set; } = new No();
+
         private Eval<float> FailNullSafeFloat<T>(Eval<T> eval, string paramName) =>
             eval != null ? Eval.Make($"Invalid {Localizer.DoStr(paramName)} specified on {GetType().GetLocDisplayName()}: {eval.Message}", float.MinValue)
                          : Eval.Make($"{Localizer.DoStr(paramName)} not set on {GetType().GetLocDisplayName()}.", float.MinValue);
@@ -32,6 +34,7 @@ namespace Eco.Mods.LawExtensions
         public override Eval<float> Value(IContextObject action)
         {
             var location = this.Location?.Value(action); if (location?.Val == null) return this.FailNullSafeFloat(location, nameof(this.Location));
+            var ignoreAtLocation = this.IgnoreAtLocation?.Value(action); if (ignoreAtLocation?.Val == null) return this.FailNullSafeFloat(ignoreAtLocation, nameof(this.IgnoreAtLocation));
 
             var allRelevantPlants = EcoSim.PlantSim.All
                 .Where(x => PlantType.ContainsType(x.Species.GetType()));
@@ -40,10 +43,17 @@ namespace Eco.Mods.LawExtensions
                 return Eval.Make($"{Text.Style(Text.Styles.Currency, "infinite")} (distance to nearest {PlantType.DescribeEntries(Localizer.DoStr(","))})", float.MaxValue);
             }
 
-            var nearest = allRelevantPlants
-                .Select(x => (x, World.WrappedDistance(x.Position, location.Val)))
-                .OrderBy(x => x.Item2)
-                .FirstOrDefault();
+            var plantsWithDistances = allRelevantPlants
+                .Select(x => (x, World.WrappedDistance(x.Position, location.Val)));
+
+            if (ignoreAtLocation.Val)
+            {
+                plantsWithDistances = plantsWithDistances
+                    .Where(x => x.Item2 > 0.0f);
+            }
+
+            var nearest = plantsWithDistances
+                .MinBy(x => x.Item2);
 
             return Eval.Make($"{Text.StyledNum(nearest.Item2)} (distance to {nearest.x.Species.DisplayName})", nearest.Item2);
         }

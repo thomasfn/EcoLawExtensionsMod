@@ -79,6 +79,7 @@ Finds the closest world object matching a filter to a location and gets the dist
 | - | - | - |
 | Location | Vector3 | The location to test. Usually this is passed in context from the law trigger. |
 | ObjectType | Object Picker | A filter for objects to search for. |
+| IgnoreAtLocation | Yes/No | Ignore any world objects directly at the location, e.g. with a distance of 0. This is useful to find the next nearest world object from a world object. Defaults to No. |
 
 #### Distance to Closest Plant
 
@@ -88,6 +89,7 @@ Finds the closest plant matching a filter to a location and gets the distance to
 | - | - | - |
 | Location | Vector3 | The location to test. Usually this is passed in context from the law trigger. |
 | PlantType | Plant Species Picker | A filter for plants to search for. |
+| IgnoreAtLocation | Yes/No | Ignore any plants directly at the location, e.g. with a distance of 0. This is useful to find the next nearest plant from a plant. Defaults to No. |
 
 #### Layer Value At
 
