@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
-
-using HarmonyLib;
 
 namespace Eco.Mods.LawExtensions
 {
@@ -24,7 +23,7 @@ namespace Eco.Mods.LawExtensions
     using Gameplay.Items;
     using Gameplay.Components;
     using Gameplay.Objects;
-    
+    using Gameplay.PowerGrids;
 
     [Serialized]
     public class LawExtensionsData : Singleton<LawExtensionsData>, IStorage
@@ -60,7 +59,6 @@ namespace Eco.Mods.LawExtensions
 
         static LawExtensionsPlugin()
         {
-            CosturaUtility.Initialize();
             var dynamicTagsField = typeof(TagManager).GetField("dynamicTags", BindingFlags.Static | BindingFlags.NonPublic);
             if (dynamicTagsField != null)
             {
@@ -92,8 +90,14 @@ namespace Eco.Mods.LawExtensions
         public void Initialize(TimedTask timer)
         {
             data.Initialize();
-            var harmony = new Harmony("Eco.Mods.LawExtensions");
-            harmony.PatchAll();
+            try
+            {
+                SetupPowerGridManagerDetour();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Failed to setup power grid manager detour ({ex.Message}) - power related law triggers will not work!");
+            }
             // Modded tags as filters for law trigger parameters don't seem to be supported for now (or maybe it's just my crazy way of making a tag...)
             // SetupPoweredTag();
         }
@@ -112,6 +116,24 @@ namespace Eco.Mods.LawExtensions
         public void OnEditObjectChanged(object o, string param)
         {
             this.SaveConfig();
+        }
+
+        private void SetupPowerGridManagerDetour()
+        {
+            var tickWorkerField = typeof(PowerGridManager).GetField("tickWorker", BindingFlags.Instance | BindingFlags.NonPublic) ?? throw new Exception($"Failed to reflect PowerGridManager.tickWorker");
+            var tickWorker = tickWorkerField.GetValue(PowerGridManager.Obj) as EventDrivenWorker ?? throw new Exception($"Failed to retrieve PowerGridManager.tickWorker");
+            var repeatableActionField = typeof(EventDrivenWorker).GetField("repeatableAction", BindingFlags.Instance | BindingFlags.NonPublic) ?? throw new Exception($"Failed to reflect EventDrivenWorker.repeatableAction");
+            var oldRepeatableAction = repeatableActionField.GetValue(tickWorker) as Func<CancellationToken, Task<int>> ?? throw new Exception($"Failed to retrieve EventDrivenWorker.repeatableAction");
+            Func<CancellationToken, Task<int>> newRepeatableAction = (token) =>
+            {
+                PowerGridLawManager.PowerGridManagerPreTick(PowerGridManager.Obj);
+                return oldRepeatableAction(token).ContinueWith(t =>
+                {
+                    PowerGridLawManager.PowerGridManagerPostTick(PowerGridManager.Obj);
+                    return t.Result;
+                });
+            };
+            repeatableActionField.SetValue(tickWorker, newRepeatableAction);
         }
 
         private void SetupPoweredTag()
