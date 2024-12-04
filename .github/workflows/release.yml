@@ -9,21 +9,21 @@ jobs:
     name: Build Mod
     runs-on: ubuntu-latest
     env:
-      MODKIT_VERSION: 0.11.0.2-beta-release-707
+      MODKIT_VERSION: 0.11.1.3-beta-release-795
       ECO_BRANCH: staging
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core 7.0
-      uses: actions/setup-dotnet@v1
+    - uses: actions/checkout@v4
+    - name: Setup .NET Core 8.0
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '7.0.x'
+        dotnet-version: '8.0.x'
     - name: Fetch dependencies
       run: dotnet restore ./EcoLawExtensionsMod/EcoLawExtensionsMod.csproj
       env:
         DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
     - name: Cache Eco dlls
       id: cache-eco-dlls
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: ./eco-dlls
         key: ${{ env.MODKIT_VERSION }}-ref-dlls
@@ -35,10 +35,10 @@ jobs:
       env:
         DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
     - name: Upload build artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: mod-binaries-${{github.event.release.tag_name}}
-        path: EcoLawExtensionsMod/bin/Release/net7.0/EcoLawExtensionsMod.*
+        path: EcoLawExtensionsMod/bin/Release/net8.0/EcoLawExtensionsMod.*
   deploy:
     name: Upload Release Assets
     needs:
@@ -47,7 +47,7 @@ jobs:
     steps:
       - name: Download build artifact (mod)
         id: download-mod
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: mod-binaries-${{github.event.release.tag_name}}
       - name: Upload release asset (mod)

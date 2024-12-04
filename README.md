@@ -1,5 +1,5 @@
 # Eco Law Extensions Mod
-A server mod for Eco 11.0 that extends the law system with a number of helpful utility game values and legal actions.
+A server mod for Eco 11.1 that extends the law system with a number of helpful utility game values and legal actions.
 
 Added game values:
  - Citizen Population - the current citizen count of a title or demographic
@@ -79,6 +79,7 @@ Finds the closest world object matching a filter to a location and gets the dist
 | - | - | - |
 | Location | Vector3 | The location to test. Usually this is passed in context from the law trigger. |
 | ObjectType | Object Picker | A filter for objects to search for. |
+| IgnoreAtLocation | Yes/No | Ignore any world objects directly at the location, e.g. with a distance of 0. This is useful to find the next nearest world object from a world object. Defaults to No. |
 
 #### Distance to Closest Plant
 
@@ -88,6 +89,7 @@ Finds the closest plant matching a filter to a location and gets the distance to
 | - | - | - |
 | Location | Vector3 | The location to test. Usually this is passed in context from the law trigger. |
 | PlantType | Plant Species Picker | A filter for plants to search for. |
+| IgnoreAtLocation | Yes/No | Ignore any plants directly at the location, e.g. with a distance of 0. This is useful to find the next nearest plant from a plant. Defaults to No. |
 
 #### Layer Value At
 
@@ -105,6 +107,14 @@ Extracts the Y coordinate from a location. This will be an integer in whole bloc
 | Property Name | Type | Description |
 | - | - | - |
 | Location | Vector3 | The location to get the height of. Usually this is passed in context from the law trigger. |
+
+#### X/Z Coord At
+
+Extracts the X/Z coordinate from a location. This will be an integer in whole blocks.
+
+| Property Name | Type | Description |
+| - | - | - |
+| Location | Vector3 | The location to get the X/Z coord of. Usually this is passed in context from the law trigger. |
 
 #### Turn On Machines
 
@@ -170,7 +180,7 @@ Note that the `PowerAvailable` and `PowerProduced` values are measured in Joules
 2. Extract the modkit and copy the dlls from `ReferenceAssemblies` to `eco-dlls` in the root directory (create the folder if it doesn't exist)
 3. Open `EcoLawExtensionsMod.sln` in Visual Studio 2019/2022
 4. Build the `EcoLawExtensionsMod` project in Visual Studio
-5. Find the artifact in `EcoLawExtensionsMod\bin\{Debug|Release}\net7.0`
+5. Find the artifact in `EcoLawExtensionsMod\bin\{Debug|Release}\net8.0`
 
 ### Linux
 
@@ -178,7 +188,7 @@ Note that the `PowerAvailable` and `PowerProduced` values are measured in Joules
 2. Enter the `EcoLawExtensionsMod` directory and run:
 `dotnet restore`
 `dotnet build`
-3. Find the artifact in `EcoLawExtensionsMod/bin/{Debug|Release}/net7.0`
+3. Find the artifact in `EcoLawExtensionsMod/bin/{Debug|Release}/net8.0`
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
