@@ -67,7 +67,9 @@ namespace Eco.Mods.LawExtensions
             {
                 int cnt = 0;
                 var allRelevantObjects = WorldObjectUtil.AllObjsWithComponent<OnOffComponent>()
-                    .Where(x => x != null && !x.On && (jurisdictionSettlement?.Influences(x.Parent.WorldPosXZi()) ?? true) && !x.Parent.TagNames().Intersect(LawExtensionsPlugin.Obj.Config.TurnOnIgnoreTags).Any());
+                    .Where(x => x != null && 
+                          !x.On && (jurisdictionSettlement?.Influences(x.Parent.WorldPosXZi()) ?? true) && 
+                          !x.Parent.TagNames().Intersect(LawExtensionsPlugin.Obj.Config.TurnOnIgnoreTags).Any());
                 foreach (var onOffComponent in allRelevantObjects)
                 {
                     var worldObject = onOffComponent.Parent;
