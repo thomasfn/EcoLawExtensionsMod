@@ -21,6 +21,7 @@ namespace Eco.Mods.LawExtensions
     using Gameplay.Components;
     using Gameplay.Settlements;
     using Gameplay.Economy.Transfer;
+    using Gameplay.Items;
 
     [Eco, LocCategory("Misc"), CreateComponentTabLoc("Eco Law Extensions", IconName = "Law"), LocDisplayName("Turn On Machines"), LocDescription("Tries to turn on all inactive machines that match a set of conditions.")]
     public class TurnOnMachines_LegalAction : LegalAction
@@ -66,7 +67,7 @@ namespace Eco.Mods.LawExtensions
             {
                 int cnt = 0;
                 var allRelevantObjects = WorldObjectUtil.AllObjsWithComponent<OnOffComponent>()
-                    .Where(x => x != null && !x.On && (jurisdictionSettlement?.Influences(x.Parent.WorldPosXZi()) ?? true));
+                    .Where(x => x != null && !x.On && (jurisdictionSettlement?.Influences(x.Parent.WorldPosXZi()) ?? true) && !x.Parent.TagNames().Intersect(LawExtensionsPlugin.Obj.Config.TurnOnIgnoreTags).Any());
                 foreach (var onOffComponent in allRelevantObjects)
                 {
                     var worldObject = onOffComponent.Parent;

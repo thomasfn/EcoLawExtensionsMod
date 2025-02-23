@@ -48,6 +48,9 @@ namespace Eco.Mods.LawExtensions
     {
         [LocDescription("Seconds between each power grid law tick. Set to 0 to disable.")]
         public int TickInterval { get; set; } = 30;
+        
+        [LocDescription("List of tags to be ignored by the TurnOnMachines-Action")]
+        public List<string> TurnOnIgnoreTags { get; set; } = ["LargeDoor"];
     }
 
     [Localized, LocDisplayName(nameof(LawExtensionsPlugin)), Priority(PriorityAttribute.High)]
