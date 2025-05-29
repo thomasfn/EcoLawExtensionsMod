@@ -118,7 +118,7 @@ Extracts the X/Z coordinate from a location. This will be an integer in whole bl
 
 #### Turn On Machines
 
-Tries to turn on machines belonging to a citizen or group that are currently turned off. The filter can specify how the machines were turned off - for example, only try to turn on machines that were turned off legally (e.g. via prevent on Pollute Air).
+Tries to turn on machines belonging to a citizen or group that are currently turned off. The filter can specify how the machines were turned off - for example, only try to turn on machines that were turned off legally (e.g. via prevent on Pollute Air). Note that anything configured by the server in the mod's 'TurnOnIgnoreTags' setting will be ignored by this action.
 
 | Property Name | Type | Description |
 | - | - | - |
