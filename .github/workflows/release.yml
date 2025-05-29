@@ -9,7 +9,7 @@ jobs:
     name: Build Mod
     runs-on: ubuntu-latest
     env:
-      MODKIT_VERSION: 0.11.1.3-beta-release-795
+      MODKIT_VERSION: 0.11.1.9-beta-release-842
       ECO_BRANCH: staging
     steps:
     - uses: actions/checkout@v4
@@ -21,15 +21,6 @@ jobs:
       run: dotnet restore ./EcoLawExtensionsMod/EcoLawExtensionsMod.csproj
       env:
         DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
-    - name: Cache Eco dlls
-      id: cache-eco-dlls
-      uses: actions/cache@v4
-      with:
-        path: ./eco-dlls
-        key: ${{ env.MODKIT_VERSION }}-ref-dlls
-    - name: Download Eco dlls
-      if: steps.cache-eco-dlls.outputs.cache-hit != 'true'
-      run: sh fetch-eco-reference-assemblies.sh
     - name: Build
       run: dotnet build ./EcoLawExtensionsMod/EcoLawExtensionsMod.csproj --configuration Release --no-restore /p:AssemblyVersion=${{github.event.release.tag_name}}
       env:

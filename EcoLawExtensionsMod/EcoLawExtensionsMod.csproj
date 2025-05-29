@@ -12,32 +12,8 @@
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
-
   <ItemGroup>
-    <Reference Include="Eco.Core">
-      <HintPath>..\eco-dlls\Eco.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Eco.Gameplay">
-      <HintPath>..\eco-dlls\Eco.Gameplay.dll</HintPath>
-    </Reference>
-    <Reference Include="Eco.ModKit">
-      <HintPath>..\eco-dlls\Eco.ModKit.dll</HintPath>
-    </Reference>
-    <Reference Include="Eco.Plugins">
-      <HintPath>..\eco-dlls\Eco.Plugins.dll</HintPath>
-    </Reference>
-    <Reference Include="Eco.Shared">
-      <HintPath>..\eco-dlls\Eco.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="Eco.Simulation">
-      <HintPath>..\eco-dlls\Eco.Simulation.dll</HintPath>
-    </Reference>
-    <Reference Include="Eco.Stats">
-      <HintPath>..\eco-dlls\Eco.Stats.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Eco.ReferenceAssemblies" Version="0.11.1.12-beta-release-881" />
     <PackageReference Include="NetFabric.Hyperlinq.Abstractions" Version="1.3.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="ConcurrentHashSet" Version="1.3.0" />
